@@ -10,7 +10,14 @@ const Spot = new Schema( {
     ref: 'User'
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: {
+    virtuals: true
+  }
+} )
+
+Spot.virtual( 'thumbnail_url' ).get( function() {
+  return `http://192.168.0.103:3333/files/${this.thumbnail}`
 } )
 
 export default model( 'Spot', Spot )

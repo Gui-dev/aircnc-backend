@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import path from 'path'
 
 import database from './config/database'
 import routes from './routes'
@@ -28,6 +29,9 @@ class App {
 
   middlewares() {
     this.app.use( express.json() )
+    this.app.use( '/files', express.static( 
+      path.resolve( __dirname, '..', 'uploads' )
+    ) )
     this.app.use( cors() )
   }
 

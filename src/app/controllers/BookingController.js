@@ -16,6 +16,12 @@ class BookingController {
 
       await booking.populate( 'spot' ).populate( 'user' ).execPopulate()
 
+      const ownerSocket = request.connectedUsers[ booking.spot.user ]
+
+      if( ownerSocket ) {
+        request.io.to( ownerSocket ).emit( 'booking_request', booking )
+      }
+
       return response.status( 201 ).json( booking )
     } catch (error) {
       return response.status( 400 ).json( {
